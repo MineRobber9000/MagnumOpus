@@ -1,5 +1,5 @@
 local function get(user,repo,branch,file,output)
-	local h = http.get(string.format("http://raw.githubusercontent.com/%s/%s/%s/%s",user,repo,branch,file))
+	local h = http.get(string.format("https://raw.githubusercontent.com/%s/%s/%s/%s",user,repo,branch,file))
 	local h2 = fs.open(output,"w")
 	h2.write(h.readAll())
 	h.close()
