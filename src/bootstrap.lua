@@ -1,3 +1,5 @@
+-- Bootstrap! Downloads programs and sets 
+
 local function get(user,repo,branch,file,output)
 	local h = http.get(string.format("https://raw.githubusercontent.com/%s/%s/%s/%s",user,repo,branch,file))
 	local h2 = fs.open(output,"w")
@@ -7,6 +9,8 @@ local function get(user,repo,branch,file,output)
 end
 
 local dirs = {"bin"}
+
+local binarypaths = {true}
 
 local files = {
 	{"MineRobber9000","MagnumOpus","master","bin/test.lua","bin/test"}
@@ -19,20 +23,20 @@ end
 
 local function foreach(tArgs,mCallback)
 	for i=1,#tArgs do
-		mCallback(tArgs[i])
+		mCallback(i,tArgs[i])
 	end
 end
 
 local function makedirs()
-	local function callback(sDir)
+	local function callback(i,sDir)
 		makedir(sDir)
 	end
 	foreach(dirs,callback)
 end
 
 local function getfiles()
-	local function callback(tFile)
-		get(tFile[1],tFile[2],tFile[3],tFile[4],tFile[5])
+	local function callback(i,tFile)
+		get(tFile[1],tFile[2],tFile[3],tFile[4],tFile[5]..(ccversion<3 and "" or ".lua"))
 	end
 	foreach(files,callback)
 end
@@ -50,4 +54,10 @@ local function addPath(dir)
 	shell.setPath(dir..":"..shell.path())
 end
 
-addPath("/bin")
+local function addbinarypaths()
+	local function callback(i,sDir)
+		if binarypaths[i] then addPath(sDir) end
+	end
+	foreach(dirs,callback)
+end
+
