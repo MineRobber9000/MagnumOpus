@@ -6,11 +6,10 @@ local function get(user,repo,branch,file,output)
 	h2.close()
 end
 
-local dirs = {"bin","help"}
+local dirs = {"bin"}
 
 local files = {
-	{"MineRobber9000","MagnumOpus","master","bin/test.lua","bin/test"},
-	{"MineRobber9000","MagnumOpus","master","help/test.txt","help/test"}
+	{"MineRobber9000","MagnumOpus","master","bin/test.lua","bin/test"}
 }
 
 local function makedir(dir)
@@ -47,9 +46,8 @@ if not fs.exists(".notbootstrapped") then --if being bootstrapped, download ever
 	h.close()
 end
 
-local function addPath(obj,dir)
-	obj.setPath(dir..":"..obj.path())
+local function addPath(dir)
+	shell.setPath(dir..":"..shell.path())
 end
 
-addPath(shell,"/bin")
-addPath(help,"/help")
+addPath("/bin")
