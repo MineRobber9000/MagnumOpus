@@ -10,7 +10,7 @@ end
 
 local dirs = {"bin"}
 
-local binarypaths = {true}
+local binarydirs = {"bin"}
 
 local files = {
 	{"MineRobber9000","MagnumOpus","master","bin/test.lua","bin/test"}
@@ -23,19 +23,16 @@ end
 
 local function foreach(tArgs,mCallback)
 	for i=1,#tArgs do
-		mCallback(i,tArgs[i])
+		mCallback(tArgs[i])
 	end
 end
 
 local function makedirs()
-	local function callback(i,sDir)
-		makedir(sDir)
-	end
-	foreach(dirs,callback)
+	foreach(dirs,makedir)
 end
 
 local function getfiles()
-	local function callback(i,tFile)
+	local function callback(tFile)
 		get(tFile[1],tFile[2],tFile[3],tFile[4],tFile[5]..(ccversion<3 and "" or ".lua"))
 	end
 	foreach(files,callback)
@@ -43,7 +40,7 @@ end
 
 if not fs.exists(".notbootstrapped") then --if being bootstrapped, download everything needed (currently nothing)
 	makedirs()
-	makefiles()	
+	getfiles()	
 	local h = fs.open(".notbootstrapped","w")
 	h.writeLine("DO NOT REMOVE THIS FILE!")
 	h.writeLine("If you do, all MagnumOpus binaries will be re-downloaded.")
@@ -54,10 +51,9 @@ local function addPath(dir)
 	shell.setPath(dir..":"..shell.path())
 end
 
-local function addbinarypaths()
-	local function callback(i,sDir)
-		if binarypaths[i] then addPath(sDir) end
-	end
-	foreach(dirs,callback)
+local function addbinarydirs()
+	foreach(binarydirs,addPath)
 end
+
+addbinarydirs()
 
