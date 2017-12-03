@@ -13,7 +13,8 @@ local dirs = {"bin"}
 local binarydirs = {"bin"}
 
 local files = {
-	{"MineRobber9000","MagnumOpus","master","bin/test.lua","bin/test"}
+	{"MineRobber9000","MagnumOpus","master","bin/test.lua","bin/test"},
+	{"MineRobber9000","MagnumOpus","master","bin/pockemu.lua","bin/pockemu"}
 }
 
 local function makedir(dir)

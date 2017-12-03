@@ -10,4 +10,3 @@ end
 if term.getPaletteColor~=nil then -- >= CC 1.8 (unreleased as of yet)
 	ccversion = 3
 end
-
